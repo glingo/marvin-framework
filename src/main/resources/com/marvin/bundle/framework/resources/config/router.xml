@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container>
+    <services>
+        
+        <!-- XmlRouteReader definition -->
+        <service id="router.reader_xml" class="com.marvin.component.routing.xml.XmlRouteReader">
+            <argument type="service" ref="kernel.resource_service"/>
+        </service>
+        
+        <service id="path_matcher" class="com.marvin.component.routing.matcher.PathMatcher" />
+
+        <service id="matcher" class="com.marvin.component.routing.matcher.MatcherDelegate">
+            <argument>
+                <list>
+                    <argument type="service" ref="path_matcher"/>
+                </list>
+            </argument>
+        </service>
+        
+        <!-- Router definition -->
+        <service id="router" class="com.marvin.component.routing.Router">
+            <argument type="service"    ref="router.reader_xml" />
+            <argument type="parameter"  ref="router.resource" />
+            <argument type="service"    ref="matcher" />
+        </service>
+    </services>
+</container>

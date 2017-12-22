@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container>
+    
+    <import resource="resource.xml" />
+    <import resource="event.xml" />
+    <import resource="translator.xml" />
+    <import resource="router.xml" />
+    <import resource="templating.xml" />
+    <import resource="mvc.xml" />
+
+</container>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container>
+    <services>
+        <!-- event dispatcher definition -->
+        <service id="event_dispatcher" class="com.marvin.component.event.dispatcher.Dispatcher" />
+    </services>
+</container>

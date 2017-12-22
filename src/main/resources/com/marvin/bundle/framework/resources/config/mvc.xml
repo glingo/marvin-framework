@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container>
+    <!--MVC-->
+    <services>
+        
+        <!-- Argument Resolver -->
+        <service id="argument_resolver" class="com.marvin.bundle.framework.mvc.controller.argument.ArgumentResolver" />
+        
+        <service id="default.argument_resolver" class="com.marvin.bundle.framework.mvc.controller.argument.argumentResolver.DefaultValueResolver">
+            <tag name="argument_resolver" />
+        </service> 
+        
+        <service id="model.argument_resolver" class="com.marvin.bundle.framework.mvc.controller.argument.argumentResolver.ModelArgumentResolver">
+            <tag name="argument_resolver" />
+        </service>
+        
+        <!-- controller name parser -->
+        <service id="controller.name_parser" class="com.marvin.bundle.framework.mvc.controller.ControllerNameParser">
+            <argument type="service" ref="kernel"/>
+        </service>
+        
+        <!-- Controller Resolver -->
+        <service id="controller_resolver" class="com.marvin.bundle.framework.mvc.controller.ControllerResolverDelegate" />
+        
+        <service id="service.controller_resolver" class="com.marvin.bundle.framework.mvc.controller.ContainerControllerResolver">
+            <argument type="service" ref="controller.name_parser"/>
+            <tag name="controller_resolver" />
+        </service>
+        
+        <!-- View -->
+        <service id="view_subscriber" class="com.marvin.bundle.framework.subscriber.ViewSubscriber">
+            <tag name="event_subscriber"/>
+        </service>
+        
+        <service id="view_resolver" class="com.marvin.bundle.framework.mvc.view.ViewResolverDelegate" />
+        
+        <service id="view.container_resolver" class="com.marvin.bundle.framework.mvc.view.ContainerViewResolver">
+            <tag name="view_resolver" />
+        </service>
+        
+        <service id="view.name_parser" class="com.marvin.bundle.framework.mvc.view.ViewNameParser">
+            <argument type="service" ref="kernel"/>
+            <argument type="parameter" ref="templating.engine"/>
+        </service>
+        
+        <service id="view.class_resolver" class="com.marvin.bundle.framework.mvc.view.ViewClassResolver">
+            <argument type="service" ref="view.name_parser"/>
+            <tag name="view_resolver" />
+        </service>
+
+<!--        <service id="view.resource_resolver" class="com.marvin.bundle.framework.mvc.view.PathViewResolver">
+            <argument type="java.lang.String" value="resource.view." />
+            <argument type="java.lang.String" value="View"/>
+            <tag name="view_resolver" />
+        </service>-->
+
+<!--        <service id="view.bundle_resource_resolver" class="com.marvin.bundle.framework.mvc.view.ResourceViewResolver">
+            <argument type="service" ref="kernel"/>
+            <argument type="service" ref="resource_loader"/>
+            <argument type="service" ref="templating_engine"/>
+            <argument type="java.lang.String" value="/resources/view/" />
+            <argument type="java.lang.String" value=".view"/>
+            <tag name="view_resolver" />
+        </service> -->
+
+        <service id="response_subscriber" class="com.marvin.bundle.framework.subscriber.ResponseSubscriber">
+            <argument type="service" ref="view_resolver"/>
+            <tag name="event_subscriber"/>
+        </service>
+        
+        <!-- HANDLER -->
+        <service id="handler" class="com.marvin.bundle.framework.mvc.Handler">
+            <argument type="service" ref="event_dispatcher"/>
+            <argument type="service" ref="controller_resolver"/>
+            <argument type="service" ref="argument_resolver"/>
+        </service>
+        
+        <!-- EXCEPTION -->
+<!--        <service id="exception.subscriber" class="com.marvin.bundle.framework.subscriber.ErrorSubscriber">
+            <argument type="java.lang.String" value="Framework:error:error" />
+            <tag name="event_subscriber"/>
+        </service>-->
+        
+        <service id="exception.subscriber" class="com.marvin.bundle.framework.subscriber.ErrorSubscriber">
+            <argument type="java.lang.String" value="::error" />
+            <tag name="event_subscriber"/>
+        </service>
+    </services>
+</container>
